@@ -29,7 +29,7 @@ namespace AddComments.Code
             List<SplitingLine> newSplitingTextWithComments = new List<SplitingLine>();
             foreach (var line in newSplitingText)
             {
-                newSplitingTextWithComments.Add(CommentSearch.Find(newSplitingText, line));
+                newSplitingTextWithComments.Add(CommentSearch.FindColumn(newSplitingText, line));
             }
 
             return newSplitingTextWithComments;

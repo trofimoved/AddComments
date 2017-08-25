@@ -9,42 +9,126 @@ namespace AddComments.Code
     class Classes
     {
     }
+    public class AppSettings
+    {
+        public enum SearchParameter
+        {
+            All = 1,
+            Frequent = 2,
+        }
+    }
 
     public class AppValue
     {
-        public static string StatusTextDefault = "";
+        public static string StatusTextDefault = "...";
         public static string StatusTextOk = "Готово";
         public static string StatusTextError(string errorMessage)
         {
-            return "" + errorMessage;
+            return "Ошибка: " + errorMessage;
         }
     }
 
     public class CommentSearch
     {
-        public static SplitingLine Find(List<SplitingLine> inputText, SplitingLine inputLine)
+        private static SplitingLine FindAll(List<SplitingLine> inputText, SplitingLine inputLine)
         {
             SplitingLine outputLine = inputLine;
             outputLine.Comments = new List<SplitingLine.CommentFrom>();
-            if (inputLine.Comment == FileLine.DefaultCommentString)
+            foreach (SplitingLine line in inputText)
             {
-                foreach (SplitingLine line in inputText)
+                if (line.Column == inputLine.Column && line.Table != inputLine.Table && line.Comment != FileLine.DefaultCommentString)
                 {
-                    if (line.Column == inputLine.Column && line.Table != inputLine.Table && line.Comment != FileLine.DefaultCommentString)
+                    if (!inputLine.Comments.Exists(x => x.Value == line.Comment))
                     {
-                        if (!inputLine.Comments.Exists(x => x.Value == line.Comment))
+                        SplitingLine.CommentFrom comment = new SplitingLine.CommentFrom()
                         {
-                            SplitingLine.CommentFrom comment = new SplitingLine.CommentFrom()
-                            {
-                                Value = line.Comment,
-                                Table = line.Table
-                            };
-                            outputLine.Comments.Add(comment);
-                        }
+                            Value = line.Comment,
+                            Table = line.Table
+                        };
+                        outputLine.Comments.Add(comment);
                     }
                 }
             }
             return outputLine;
+        }
+
+        private static SplitingLine FindFrequent(List<SplitingLine> inputText, SplitingLine inputLine)
+        {
+            SplitingLine outputLine = inputLine;
+            outputLine.Comments = new List<SplitingLine.CommentFrom>();
+            foreach (SplitingLine line in inputText)
+            {
+                if (line.Column == inputLine.Column && line.Table != inputLine.Table && line.Comment != FileLine.DefaultCommentString)
+                {
+                    SplitingLine.CommentFrom comments = new SplitingLine.CommentFrom()
+                    {
+                        Value = line.Comment.ToLower(),
+                        Table = line.Table
+                    };
+                    outputLine.Comments.Add(comments);
+                }
+            }
+            var groups = outputLine.Comments.GroupBy(x => x.Value);
+            string value;
+            string table;
+
+            if (groups.Count() == 0)
+            {
+                outputLine.Comments.Clear();
+                value = groups.First().First().Value;
+                table = "";
+                foreach (var item in groups.First())
+                {
+                    table += item.Table + " ";
+                }
+            }
+            else
+            {
+                Dictionary<string, int> dict = new Dictionary<string, int>();
+                foreach (var commentGroup in groups)
+                {
+                    dict.Add(commentGroup.Key, commentGroup.Count());
+                }
+                var frequent = dict.Where(x => x.Value == dict.Max(y => y.Value)).First();
+                
+                value = frequent.Key;
+                table = "";
+                foreach (var item in groups.Where(x => x.Key == frequent.Key).First())
+                {
+                    table += item.Table + " ";
+                }
+            }
+            outputLine.Comments.Clear();
+            SplitingLine.CommentFrom comment = new SplitingLine.CommentFrom()
+            {
+                Value = value,
+                Table = table
+            };
+            outputLine.Comments.Add(comment);
+
+            return outputLine;
+        }
+        public static SplitingLine FindTable()
+        {
+            return null;
+        }
+        /// <summary>
+        /// Найти комментарии для данной строки в заданном тексте
+        /// </summary>
+        /// <param name="inputText">Текст для поиска комментария</param>
+        /// <param name="inputLine">Строка для которой надо найти комментарий</param>
+        /// <param name="searchParameter">Параметр поиска</param>
+        /// <returns>Строка с комментариями</returns>
+        public static SplitingLine FindColumn(List<SplitingLine> inputText, SplitingLine inputLine, AppSettings.SearchParameter searchParameter)
+        {
+            if (inputLine.Comment == FileLine.DefaultCommentString)
+            {
+                if (searchParameter == AppSettings.SearchParameter.All)
+                    return FindAll(inputText, inputLine);
+                if (searchParameter == AppSettings.SearchParameter.Frequent)
+                    return FindFrequent(inputText, inputLine);
+            }
+            return inputLine;
         }
     }
 
