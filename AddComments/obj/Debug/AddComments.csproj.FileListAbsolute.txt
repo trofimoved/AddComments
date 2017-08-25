@@ -1,9 +1,0 @@
-C:\Projects\ModelsTutorial\AddComments\AddComments\bin\Debug\AddComments.exe.config
-C:\Projects\ModelsTutorial\AddComments\AddComments\bin\Debug\AddComments.exe
-C:\Projects\ModelsTutorial\AddComments\AddComments\bin\Debug\AddComments.pdb
-C:\Projects\ModelsTutorial\AddComments\AddComments\obj\Debug\AddComments.csprojResolveAssemblyReference.cache
-C:\Projects\ModelsTutorial\AddComments\AddComments\obj\Debug\AddComments.Form1.resources
-C:\Projects\ModelsTutorial\AddComments\AddComments\obj\Debug\AddComments.Properties.Resources.resources
-C:\Projects\ModelsTutorial\AddComments\AddComments\obj\Debug\AddComments.csproj.GenerateResource.Cache
-C:\Projects\ModelsTutorial\AddComments\AddComments\obj\Debug\AddComments.exe
-C:\Projects\ModelsTutorial\AddComments\AddComments\obj\Debug\AddComments.pdb
