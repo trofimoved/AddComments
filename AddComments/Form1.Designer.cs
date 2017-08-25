@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbFileName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.lblFileName = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             this.tbNewFileName = new System.Windows.Forms.TextBox();
             this.lblNewFileName = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // tbFileName
@@ -75,6 +77,7 @@
             this.lblStatus.Size = new System.Drawing.Size(70, 13);
             this.lblStatus.TabIndex = 4;
             this.lblStatus.Text = "Пока ничего";
+            this.lblStatus.TextChanged += new System.EventHandler(this.lblStatus_TextChanged);
             // 
             // label3
             // 
@@ -120,6 +123,10 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -156,6 +163,7 @@
         private System.Windows.Forms.TextBox tbNewFileName;
         private System.Windows.Forms.Label lblNewFileName;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Timer timer;
     }
 }
 
