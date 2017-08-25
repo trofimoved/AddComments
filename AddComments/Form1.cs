@@ -100,5 +100,21 @@ namespace AddComments
         {
             lblStatus.Text = RemoveComments(tbFileName.Text, tbNewFileName.Text);
         }
+
+        private void lblStatus_TextChanged(object sender, EventArgs e)
+        {
+            if (lblStatus.Text == AppValue.StatusTextOk)
+            {
+                timer.Enabled = true;
+                timer.Interval = 5000;
+                timer.Start();
+            }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            lblStatus.Text = AppValue.StatusTextDefault;
+            timer.Enabled = false;
+        }
     }
 }

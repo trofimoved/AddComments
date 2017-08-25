@@ -10,6 +10,16 @@ namespace AddComments.Code
     {
     }
 
+    public class AppValue
+    {
+        public static string StatusTextDefault = "";
+        public static string StatusTextOk = "Готово";
+        public static string StatusTextError(string errorMessage)
+        {
+            return "" + errorMessage;
+        }
+    }
+
     public class CommentSearch
     {
         public static SplitingLine Find(List<SplitingLine> inputText, SplitingLine inputLine)
